@@ -51,7 +51,7 @@ async def websocket_handler():
     #Establish single base connection.
     while True:
         try:
-            async with websockets.connect(external_ws_url, ping_interval=None, ping_timeout=40, close_timeout=5, extra_headers=headers) as ws:
+            async with websockets.connect(external_ws_url, ping_interval=None, ping_timeout=40, close_timeout=5, additional_headers=headers) as ws:
                 ws_connection = ws
                 print("Websocket base connection established.")
                 # After connection, subscribe to all symbols from existing alerts.
