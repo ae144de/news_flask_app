@@ -90,6 +90,11 @@ def start_async_loop():
 
 threading.Thread(target=start_async_loop, daemon=True).start()
 
+@app.route('/')
+def index():
+    return "News Flask App is running!"
+
+
 
 if __name__ == '__main__':
     app.run(host="127.0.0.1", port=8000 ,debug=False)
