@@ -90,9 +90,13 @@ def start_async_loop():
 
 threading.Thread(target=start_async_loop, daemon=True).start()
 
-@app.route('/news')
+@app.route('/news/')
+def index_news():
+    return "News Flask NEWS App is running!"
+
+@app.route('/')
 def index():
-    return "News Flask App is running!"
+    return "News Flask App is running"
 
 
 
