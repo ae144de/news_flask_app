@@ -99,6 +99,11 @@ def index():
     return "News Flask App is running"
 
 
+@socketio.on('connect')
+def handle_connect():
+    print("Client connected via Socket.IO!")
+    emit('news', {'data': 'Welcome to the News App!'})
+
 
 if __name__ == '__main__':
     app.run(host="127.0.0.1", port=8000 ,debug=False)
