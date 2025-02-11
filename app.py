@@ -28,7 +28,7 @@ init(autoreset=True)
 app = Flask(__name__)
 
 # Use asyncio as the async mode.
-socketio = SocketIO(app, cors_allowed_origins="*")
+socketio = SocketIO(app, cors_allowed_origins="*", async_mode="eventlet")
 
 # CORS(app, resources={r"/*":{"origins": "https://alert-bot-v3.vercel.app"}})
 # CORS(app, resources={
