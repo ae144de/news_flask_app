@@ -1,6 +1,3 @@
-import eventlet
-eventlet.monkey_patch()
-
 from flask import Flask, request, jsonify
 import threading
 import asyncio
@@ -31,7 +28,7 @@ init(autoreset=True)
 app = Flask(__name__)
 
 # Use asyncio as the async mode.
-socketio = SocketIO(app, cors_allowed_origins="*", async_mode="eventlet")
+socketio = SocketIO(app, cors_allowed_origins="*")
 
 # CORS(app, resources={r"/*":{"origins": "https://alert-bot-v3.vercel.app"}})
 # CORS(app, resources={
