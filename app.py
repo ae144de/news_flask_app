@@ -61,13 +61,13 @@ async def websocket_handler():
                     print(f"Message received: {message}")
                     if message == 'ping':
                         await ws.send('pong')
-                        print(Fore.YELLOW + "Pong sent.")
+                        # print(Fore.YELLOW + "Pong sent.")
                     else:
                         try:
                             data = json.loads(message)
                             print("Parsed data:", data)
                             # Emit the parsed data to all connected Socket.IO clients
-                            socketio.emit('news', data)
+                            # socketio.emit('news', data)
                             print("Emitted 'news' event with data.")
                         except Exception as parse_error:
                             print("Error parsing message:", parse_error)
@@ -93,19 +93,19 @@ def start_async_loop():
 
 threading.Thread(target=start_async_loop, daemon=True).start()
 
-@app.route('/news/')
-def index_news():
-    return "News Flask NEWS App is running!"
+# @app.route('/news/')
+# def index_news():
+#     return "News Flask NEWS App is running!"
 
-@app.route('/')
-def index():
-    return "News Flask App is running"
+# @app.route('/')
+# def index():
+#     return "News Flask App is running"
 
 
-@socketio.on('connect')
-def handle_connect():
-    print("Client connected via Socket.IO!")
-    emit('news', {'data': 'Welcome to the News App!'})
+# @socketio.on('connect')
+# def handle_connect():
+#     print("Client connected via Socket.IO!")
+#     emit('news', {'data': 'Welcome to the News App!'})
 
 
 if __name__ == '__main__':
