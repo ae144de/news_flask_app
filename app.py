@@ -33,7 +33,7 @@ async_loop = None
 ws_connection = None
 
 # Use asyncio as the async mode.
-socketio = SocketIO(app, cors_allowed_origins="*", async_mode='eventlet')
+socketio = SocketIO(app, async_mode='eventlet', cors_allowed_origins="*")
 
 # CORS(app, resources={r"/*":{"origins": "https://alert-bot-v3.vercel.app"}})
 # CORS(app, resources={
