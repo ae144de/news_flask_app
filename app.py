@@ -27,6 +27,9 @@ load_dotenv()
 init(autoreset=True)
 app = Flask(__name__)
 
+async_loop = None
+ws_connection = None
+
 # Use asyncio as the async mode.
 socketio = SocketIO(app, cors_allowed_origins="*")
 
