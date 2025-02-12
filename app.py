@@ -73,6 +73,7 @@ async def websocket_handler():
                             print("Parsed data:", data)
                             # Emit the parsed data to all connected Socket.IO clients
                             socketio.emit('news', {"msg":"Received message!!"})
+                            socketio.emit('news', {"msg":data})
                             print("Emitted 'news' event with data.")
                         except Exception as parse_error:
                             print("Error parsing message:", parse_error)
