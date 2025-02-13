@@ -22,6 +22,7 @@ from flask_socketio import SocketIO, emit
 import google.oauth2.id_token
 import google.auth.transport.requests
 import websockets.connection
+from database import init_db, insert_news_item, get_all_news
 
 load_dotenv()
 
@@ -44,6 +45,9 @@ socketio = SocketIO(app, async_mode='eventlet', cors_allowed_origins="*")
 #         "supports_credentials": True,
 #     }
 # })
+
+# Initialize the SQLite table
+init_db()
 
 # --- External WebSocket Settings ---
 external_ws_url = "wss://wss.phoenixnews.io"  # Replace with your external WS URL
@@ -71,9 +75,11 @@ async def websocket_handler():
                         try:
                             data = json.loads(message)
                             print("Parsed data:", data)
+                            insert_news_item(data)
                             # Emit the parsed data to all connected Socket.IO clients
-                            socketio.emit('news', {"msg":"Received message!!"})
-                            socketio.emit('news', {"msg":data})
+                            socketio.emit('news', {"msg":"msg_rcv"})
+                            # socketio.emit('news', {"msg":data})
+                            
                             print("Emitted 'news' event with data.")
                         except Exception as parse_error:
                             print("Error parsing message:", parse_error)
@@ -98,6 +104,12 @@ def start_async_loop():
     async_loop.run_until_complete(websocket_handler())
 
 threading.Thread(target=start_async_loop, daemon=True).start()
+
+@app.route('/api/news', methods=['GET'])
+def fetch_news():
+    """Return all stored news (up to 20) in newest-first order."""
+    news_items = get_all_news()
+    return jsonify(news_items)
 
 # @app.route('/news/')
 # def index_news():
