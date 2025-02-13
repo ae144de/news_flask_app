@@ -105,14 +105,14 @@ def start_async_loop():
 
 threading.Thread(target=start_async_loop, daemon=True).start()
 
-@app.route('/api/news/', methods=['GET'])
+@app.route('/api/news', methods=['GET'])
 def fetch_news():
     """Return all stored news (up to 20) in newest-first order."""
     news_items = get_all_news()
     print("FETCH ALL THE NEWS REQUESTED!!!")
     return jsonify(news_items)
 
-@app.route('/api/test/', methods=['GET'])
+@app.route('/api/test', methods=['GET'])
 def test_news():
     return "Test endpoint is working !!!"
 
