@@ -109,6 +109,7 @@ threading.Thread(target=start_async_loop, daemon=True).start()
 def fetch_news():
     """Return all stored news (up to 20) in newest-first order."""
     news_items = get_all_news()
+    print("FETCH ALL THE NEWS REQUESTED!!!")
     return jsonify(news_items)
 
 # @app.route('/news/')
