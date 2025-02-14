@@ -25,10 +25,10 @@ def insert_news_item(news_item):
     conn = get_connection()
     cursor = conn.cursor()
 
-    # Only store up to 20 items
+    # Only store up to 35 items
     cursor.execute('SELECT COUNT(*) FROM news')
     count = cursor.fetchone()[0]
-    if count >= 20:
+    if count >= 35:
         cursor.execute('''
             DELETE FROM news
             WHERE id IN (
