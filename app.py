@@ -23,6 +23,9 @@ import google.oauth2.id_token
 import google.auth.transport.requests
 import websockets.connection
 from database import init_db, insert_news_item, get_all_news
+import firebase_admin
+from firebase_admin import credentials
+from notifications import send_push_notification
 
 load_dotenv()
 
@@ -35,6 +38,14 @@ ws_connection = None
 
 # Use asyncio as the async mode.
 socketio = SocketIO(app, async_mode='eventlet', cors_allowed_origins="*")
+
+FIREBASE_CREDENTIAL = "/opt/secrets/firebase_au_key.json"
+
+# Replace 'path/to/serviceAccountKey.json' with the actual path to your service account JSON file.
+cred = credentials.Certificate(FIREBASE_CREDENTIAL)
+
+# Initialize the default Firebase app
+firebase_admin.initialize_app(cred)
 
 # CORS(app, resources={r"/*":{"origins": "https://alert-bot-v3.vercel.app"}})
 # CORS(app, resources={
@@ -53,7 +64,7 @@ init_db()
 external_ws_url = "wss://wss.phoenixnews.io"  # Replace with your external WS URL
 api_key = "vVFfrq5TZipcYV7lEOtKJ2NzH5Xg4HgUdK7CsZopwXi1uJciaYDSt6mcL7z1c7jO"                      # Replace with your API key
 headers = {"x-api-key": api_key}
-
+device_token = "cxCOgLYMRYajlll3OozvAS:APA91bEHfrtGGM2qey8_qIM1-dIDyJOEcYI0X5VJTjTElBCwZzMtLEKDiiRrCOOXZnPABF4zpY5oF4s312MGo_BdQdnLNhOBeEckHqe8w7CftU76uI2dMsQ"
 
 async def websocket_handler():
     global subscriptions, ws_connection, subscribed_symbols
@@ -78,6 +89,7 @@ async def websocket_handler():
                             insert_news_item(data)
                             # Emit the parsed data to all connected Socket.IO clients
                             socketio.emit('news', {"msg":"msg_rcv"})
+                            send_push_notification(token=device_token, title="Flask notification title", body="Flask notification body")
                             # socketio.emit('news', {"msg":data})
                             
                             print("Emitted 'news' event with data.")
