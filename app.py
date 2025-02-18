@@ -89,7 +89,9 @@ async def websocket_handler():
                             insert_news_item(data)
                             # Emit the parsed data to all connected Socket.IO clients
                             socketio.emit('news', {"msg":"msg_rcv"})
-                            send_push_notification(token=device_token, title="Flask notification title", body="Flask notification body")
+                            title=f"sonarBOT News({data.source})"
+                            print("Title: ", title)
+                            send_push_notification(token=device_token, title=title, body="Flask notification body")
                             # socketio.emit('news', {"msg":data})
                             
                             print("Emitted 'news' event with data.")
