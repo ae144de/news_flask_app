@@ -92,7 +92,7 @@ async def websocket_handler():
                             title=f"sonarBOT News({data['source']})"
                             body=f"{data['body']}" if data['source'] == 'Twitter' else data['title']
                             print("Title: ", title)
-                            send_push_notification(token=device_token, title=title, body="Flask notification body")
+                            send_push_notification(token=device_token, title=title, body=body)
                             # socketio.emit('news', {"msg":data})
                             
                             print("Emitted 'news' event with data.")
